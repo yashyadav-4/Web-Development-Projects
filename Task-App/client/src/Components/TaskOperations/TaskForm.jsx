@@ -8,7 +8,7 @@ export const TaskForm = ({ onAdd }) => {
         startDate: "",
         endDate: "",
         priority: "low",
-        empName: "John"
+        empName: ""
     });
 
     const taskChangeHandler = (event) => {
@@ -27,22 +27,9 @@ export const TaskForm = ({ onAdd }) => {
             startDate: "",
             endDate: "",
             priority: "low",
-            empName: "John"
+            empName: ""
         });
     }
-
-    const [isCustomEmp, setIsCustomEmp] = useState(false);
-
-    const handleEmpSelectChange = (e) => {
-        const value = e.target.value;
-        if (value === "Other") {
-            setIsCustomEmp(true);
-            setTaskObj({ ...taskObj, empName: "" });
-        } else {
-            setIsCustomEmp(false);
-            setTaskObj({ ...taskObj, empName: value });
-        }
-    };
 
     return (
         <div className="bg-gray-50 py-8 px-4">
@@ -87,33 +74,16 @@ export const TaskForm = ({ onAdd }) => {
                         <label htmlFor="employeeName" className="block text-sm font-semibold text-gray-700 mb-2">
                             Employee Name
                         </label>
-                        <div className="flex gap-2">
-                            <select
-                                id="employeeName"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition bg-white"
-                                onChange={handleEmpSelectChange}
-                                name="empName"
-                                value={isCustomEmp ? "Other" : taskObj.empName}
-                            >
-                                <option value="John">John</option>
-                                <option value="Max">Max</option>
-                                <option value="Smith">Smith</option>
-                                <option value="Alex">Alex</option>
-                                <option value="Other">Other</option>
-                            </select>
-                            {isCustomEmp && (
-                                <input
-                                    type="text"
-                                    placeholder="Enter Name"
-                                    name="empName"
-                                    value={taskObj.empName}
-                                    onChange={taskChangeHandler}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
-                                    required
-                                    autoFocus
-                                />
-                            )}
-                        </div>
+                        <input
+                            id="employeeName"
+                            type="text"
+                            placeholder="Enter employee name"
+                            name="empName"
+                            value={taskObj.empName}
+                            onChange={taskChangeHandler}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+                            required
+                        />
                     </div>
 
                     {/* Grid for Dates and Priority */}

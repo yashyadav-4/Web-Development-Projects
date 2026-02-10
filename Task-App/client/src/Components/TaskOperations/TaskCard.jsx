@@ -1,4 +1,4 @@
-export const TaskCard = ({ task, index }) => {
+export const TaskCard = ({ task, index, onDelete }) => {
     const getPriorityColor = (priority) => {
         switch (priority?.toLowerCase()) {
             case 'critical':
@@ -70,10 +70,15 @@ export const TaskCard = ({ task, index }) => {
                 </div>
             )}
 
-            {/* Action Button */}
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200 text-sm">
-                View Details
-            </button>
+            {/* Action Buttons */}
+            <div className="flex gap-2">
+                <button
+                    onClick={() => onDelete(task._id)}
+                    className="w-full bg-red-50 hover:bg-red-100 text-red-600 font-medium py-2 px-4 rounded-md border border-red-200 transition duration-200 text-sm"
+                >
+                    Delete
+                </button>
+            </div>
         </div>
     )
 }

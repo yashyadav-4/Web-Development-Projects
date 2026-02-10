@@ -23,6 +23,21 @@ function App() {
     }
   };
 
+  const deleteTask = async (taskId) => {
+    try {
+      const response = await fetch(`/api/tasks/${taskId}`, {
+        method: 'DELETE'
+      });
+      if (response.ok) {
+        fetchTasks();
+      } else {
+        console.error('Failed to delete task');
+      }
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
+  }
+
   useEffect(() => {
     fetchTasks();
   }, []);
@@ -51,7 +66,7 @@ function App() {
     <>
       <Header username={username} />
       <TaskForm onAdd={addTask} />
-      <TaskList taskList={taskList} />
+      <TaskList taskList={taskList} onDelete={deleteTask} />
     </>
   )
 }
