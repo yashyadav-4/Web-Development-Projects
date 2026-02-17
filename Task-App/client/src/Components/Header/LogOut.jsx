@@ -1,20 +1,29 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
 export default function LogOut() {
     const navigate = useNavigate();
-
-    const handleLogout = () => {
-        // Clear cookie by setting it to expire in the past
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        navigate('/login');
-    };
-
+    async function remove(e) {
+        e.preventDefault();
+        try {
+            const res = await fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            if (res.ok) {
+                console.log('log out successful')
+            } else {
+                console.log('logged out successfully')
+            }
+            navigate('/login');
+        } catch (err) {
+            console.error("Login error:", err);
+        }
+    }
     return (
-        <button
-            onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-4 rounded text-sm transition duration-200 ml-4"
-        >
-            Logout
-        </button>
+        <>
+            <button onClick={remove}>Log out</button>
+        </>
     )
 }
