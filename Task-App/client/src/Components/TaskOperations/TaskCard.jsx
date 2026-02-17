@@ -1,33 +1,90 @@
-export const TaskCard = ({ task, index, onDelete }) => {
+import { useState } from 'react';
+
+export const TaskCard = ({ task, index, onDelete, onUpdate }) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedTask, setEditedTask] = useState({ ...task });
+
     const getPriorityColor = (priority) => {
         switch (priority?.toLowerCase()) {
-            case 'critical':
-                return 'bg-red-100 text-red-800 border-red-300';
-            case 'high':
-                return 'bg-orange-100 text-orange-800 border-orange-300';
-            case 'medium':
-                return 'bg-yellow-100 text-yellow-800 border-yellow-300';
-            case 'low':
-                return 'bg-green-100 text-green-800 border-green-300';
-            default:
-                return 'bg-gray-100 text-gray-800 border-gray-300';
+            case 'critical': return 'bg-red-100 text-red-800 border-red-300';
+            case 'high': return 'bg-orange-100 text-orange-800 border-orange-300';
+            case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-300';
+            case 'low': return 'bg-green-100 text-green-800 border-green-300';
+            default: return 'bg-gray-100 text-gray-800 border-gray-300';
         }
     };
 
     const getPriorityBadge = (priority) => {
         switch (priority?.toLowerCase()) {
-            case 'critical':
-                return '🔴';
-            case 'high':
-                return '🟠';
-            case 'medium':
-                return '🟡';
-            case 'low':
-                return '🟢';
-            default:
-                return '⚪';
+            case 'critical': return '🔴';
+            case 'high': return '🟠';
+            case 'medium': return '🟡';
+            case 'low': return '🟢';
+            default: return '⚪';
         }
     };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setEditedTask(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSave = () => {
+        onUpdate(task._id, editedTask);
+        setIsEditing(false);
+    };
+
+    const handleCancel = () => {
+        setEditedTask({ ...task });
+        setIsEditing(false);
+    };
+
+    if (isEditing) {
+        return (
+            <div className="bg-white rounded-lg shadow-md border border-blue-200 p-6">
+                <div className="space-y-3">
+                    <input
+                        type="text"
+                        name="taskTitle"
+                        value={editedTask.taskTitle}
+                        onChange={handleChange}
+                        className="w-full border p-2 rounded text-lg font-bold"
+                        placeholder="Task Title"
+                    />
+                    <textarea
+                        name="taskDesc"
+                        value={editedTask.taskDesc}
+                        onChange={handleChange}
+                        className="w-full border p-2 rounded text-sm"
+                        placeholder="Description"
+                    />
+                    <select
+                        name="priority"
+                        value={editedTask.priority}
+                        onChange={handleChange}
+                        className="w-full border p-2 rounded text-sm"
+                    >
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="critical">Critical</option>
+                    </select>
+                    <input
+                        type="text"
+                        name="empName"
+                        value={editedTask.empName}
+                        onChange={handleChange}
+                        className="w-full border p-2 rounded text-sm"
+                        placeholder="Assigned To"
+                    />
+                    <div className="flex gap-2 mt-4">
+                        <button onClick={handleSave} className="flex-1 bg-green-600 text-white py-2 rounded hover:bg-green-700">Save</button>
+                        <button onClick={handleCancel} className="flex-1 bg-gray-300 text-gray-700 py-2 rounded hover:bg-gray-400">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200 p-6 overflow-hidden">
@@ -73,8 +130,14 @@ export const TaskCard = ({ task, index, onDelete }) => {
             {/* Action Buttons */}
             <div className="flex gap-2">
                 <button
+                    onClick={() => setIsEditing(true)}
+                    className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-600 font-medium py-2 px-4 rounded-md border border-blue-200 transition duration-200 text-sm"
+                >
+                    Update
+                </button>
+                <button
                     onClick={() => onDelete(task._id)}
-                    className="w-full bg-red-50 hover:bg-red-100 text-red-600 font-medium py-2 px-4 rounded-md border border-red-200 transition duration-200 text-sm"
+                    className="flex-1 bg-red-50 hover:bg-red-100 text-red-600 font-medium py-2 px-4 rounded-md border border-red-200 transition duration-200 text-sm"
                 >
                     Delete
                 </button>

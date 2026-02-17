@@ -60,9 +60,15 @@ async function handleUserLogin(req , res){
     }
 }
 
+async function handleUserLogout(req , res){
+    res.clearCookie('token' , {path:'/'});
+    return res.json({message:"Logged out succesfully"});
+}
+
 module.exports={
     handleUserSignup,
     handleUserLogin,
     handleUserVerify,
+    handleUserLogout,
 
 }

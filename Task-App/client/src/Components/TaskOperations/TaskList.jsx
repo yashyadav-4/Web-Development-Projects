@@ -1,6 +1,6 @@
 import { TaskCard } from "./TaskCard"
 
-export const TaskList = ({ taskList, onDelete }) => {
+export const TaskList = ({ taskList, onDelete , onUpdate}) => {
     return (
         <div className="bg-gray-100 py-8 px-4 min-h-screen">
             <div className="max-w-6xl mx-auto">
@@ -20,7 +20,7 @@ export const TaskList = ({ taskList, onDelete }) => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {
                             taskList.map((task, index) => (
-                                <TaskCard key={index} task={task} index={index} onDelete={onDelete} />
+                                <TaskCard key={index} task={task} index={index} onDelete={onDelete} onUpdate={onUpdate} />
                             ))
                         }
                     </div>

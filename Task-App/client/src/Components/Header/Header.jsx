@@ -1,3 +1,4 @@
+import LogOut from "./LogOut"
 
 export const Header= ({username})=>{
     return (
@@ -7,6 +8,7 @@ export const Header= ({username})=>{
             <p>Welcome</p>
             <p>{username}</p>
            </div>
+           <LogOut/>
         </>
     )
 }
